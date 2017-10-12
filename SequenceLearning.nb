@@ -1,0 +1,940 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     40684,        932]
+NotebookOptionsPosition[     37774,        855]
+NotebookOutlinePosition[     38129,        871]
+CellTagsIndexPosition[     38086,        868]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+corpus = StringJoin[ResourceData[\"The American\"], \" \" , \
+ResourceData[\"Don Quixote - English\"]];\
+\>", "Text",
+ CellChangeTimes->{3.714062540661326*^9, 
+  3.714062701640086*^9},ExpressionUUID->"f606ea1b-8678-4406-bc61-\
+bb64b5cdbc20"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"corpus", "=", 
+   RowBox[{"Import", "[", 
+    RowBox[{"FileNameJoin", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], ",", 
+       "\"\<bach_charale_maelodies_tokens.txt\>\""}], "}"}], "]"}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.714062707954886*^9, 
+  3.714062793329804*^9}},ExpressionUUID->"8210667e-7479-4de7-8151-\
+6794db3dfc94"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"corpus", "//", "Short"}]], "Input",
+ CellChangeTimes->{{3.714062798392583*^9, 
+  3.7140628041281633`*^9}},ExpressionUUID->"7ad1fc5b-5a37-4f6b-b919-\
+91586ac01352"],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"\<\"REST_8 NOTE_67_4 NOTE_67_8 NOTE_74_4 NOT\"\>", 
+   "\[Ellipsis]", "\<\"TE_74_2 NOTE_72_2 NOTE_71_8 NOTE_69_4 END\"\>"}],
+  Short]], "Output",
+ CellChangeTimes->{3.714062804676816*^9, 3.714063778862472*^9, 
+  3.714064670664459*^9, 
+  3.714118364611661*^9},ExpressionUUID->"7f38c044-4db3-4754-a2b9-\
+b64d77a8c9d3"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"sampleCorpus", "[", 
+    RowBox[{"corpus_", ",", "len_", ",", "num_"}], "]"}], ":=", 
+   RowBox[{"Module", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"positions", "=", 
+       RowBox[{"RandomInteger", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"len", "+", "1"}], ",", 
+           RowBox[{
+            RowBox[{"StringLength", "[", "corpus", "]"}], "-", "1"}]}], "}"}],
+          ",", "num"}], "]"}]}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"Thread", "[", 
+      RowBox[{
+       RowBox[{"StringTake", "[", 
+        RowBox[{"corpus", ",", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"#", "-", "len"}], ",", "#"}], "}"}], "&"}], "/@", 
+          "positions"}]}], "]"}], "\[Rule]", 
+       RowBox[{"StringPart", "[", 
+        RowBox[{"corpus", ",", 
+         RowBox[{"positions", "+", "1"}]}], "]"}]}], "]"}]}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{
+  3.7140625334116497`*^9},ExpressionUUID->"60176d4e-dbb0-40b6-a888-\
+e377590268cc"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"StringLength", "[", "corpus", "]"}]], "Input",
+ CellChangeTimes->{{3.714062831801874*^9, 
+  3.714062847724538*^9}},ExpressionUUID->"63aae7d9-3c13-4192-802d-\
+b8efb9355cc9"],
+
+Cell[BoxData["48197"], "Output",
+ CellChangeTimes->{{3.714062836543199*^9, 3.7140628485542307`*^9}, 
+   3.714063783664535*^9, 3.714064676138994*^9, 
+   3.7141183681692743`*^9},ExpressionUUID->"bf242b2b-d980-4496-9144-\
+ad244ffe05f0"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"trainingData", "=", 
+   RowBox[{"sampleCorpus", "[", 
+    RowBox[{"corpus", ",", "200", ",", "50000"}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{
+  3.714062536387149*^9, {3.714062855000127*^9, 3.7140628721367207`*^9}, {
+   3.714063795548319*^9, 3.714063804130701*^9}, {3.714064682589727*^9, 
+   3.714064687199177*^9}},ExpressionUUID->"88b13d24-f389-4d75-84bf-\
+e09f2bbb3c05"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"RandomSample", "[", 
+    RowBox[{"trainingData", ",", "5"}], "]"}], "//", 
+   RowBox[{"Map", "[", "InputForm", "]"}]}], "//", "TableForm"}]], "Input",Exp\
+ressionUUID->"efdc94ea-16f2-42db-ac64-391997ec4d85"],
+
+Cell[BoxData[
+ TagBox[
+  TagBox[GridBox[{
+     {
+      InterpretationBox[
+       StyleBox[
+        RowBox[{
+        "\"\<REST_4 NOTE_77_4 NOTE_79_4 NOTE_77_4 NOTE_72_2 NOTE_74_2 \
+NOTE_75_4 NOTE_74_4 NOTE_72_4 NOTE_70_4 NOTE_70_4 NOTE_72_2 NOTE_74_2 \
+NOTE_75_4 NOTE_74_2 NOTE_75_2 NOTE_77_8 NOTE_72_4 NOTE_70_2 NOTE_69_2 \
+NOTE\>\"", " ", "->", " ", "\"\<_\>\""}],
+        ShowStringCharacters->True,
+        NumberMarks->True],
+       InputForm[
+       "REST_4 NOTE_77_4 NOTE_79_4 NOTE_77_4 NOTE_72_2 NOTE_74_2 NOTE_75_4 \
+NOTE_74_4 NOTE_72_4 NOTE_70_4 NOTE_70_4 NOTE_72_2 NOTE_74_2 NOTE_75_4 \
+NOTE_74_2 NOTE_75_2 NOTE_77_8 NOTE_72_4 NOTE_70_2 NOTE_69_2 NOTE" -> "_"],
+       AutoDelete->True,
+       Editable->True]},
+     {
+      InterpretationBox[
+       StyleBox[
+        RowBox[{
+        "\"\<NOTE_70_4 NOTE_72_2 NOTE_70_2 NOTE_69_8 NOTE_67_12 END\\nREST_12 \
+NOTE_70_4 NOTE_70_4 NOTE_77_4 NOTE_77_4 NOTE_75_2 NOTE_74_2 NOTE_72_4 \
+NOTE_74_4 NOTE_75_2 NOTE_74_2 NOTE_72_4 NOTE_70_4 NOTE_70_4 NOTE_72_\>\"", 
+         " ", "->", " ", "\"\<4\>\""}],
+        ShowStringCharacters->True,
+        NumberMarks->True],
+       InputForm[
+       "NOTE_70_4 NOTE_72_2 NOTE_70_2 NOTE_69_8 NOTE_67_12 END\nREST_12 \
+NOTE_70_4 NOTE_70_4 NOTE_77_4 NOTE_77_4 NOTE_75_2 NOTE_74_2 NOTE_72_4 \
+NOTE_74_4 NOTE_75_2 NOTE_74_2 NOTE_72_4 NOTE_70_4 NOTE_70_4 NOTE_72_" -> "4"],
+       
+       AutoDelete->True,
+       Editable->True]},
+     {
+      InterpretationBox[
+       StyleBox[
+        RowBox[{
+        "\"\<NOTE_76_4 NOTE_74_4 NOTE_72_4 NOTE_71_4 END\\nREST_12 NOTE_71_4 \
+NOTE_71_4 NOTE_71_4 NOTE_71_4 NOTE_74_4 NOTE_73_4 NOTE_71_4 NOTE_69_4 \
+NOTE_71_4 NOTE_68_4 NOTE_64_2 NOTE_66_2 NOTE_68_4 NOTE_70_4 NOTE_71_4\>\"", 
+         " ", "->", " ", "\"\< \>\""}],
+        ShowStringCharacters->True,
+        NumberMarks->True],
+       InputForm[
+       "NOTE_76_4 NOTE_74_4 NOTE_72_4 NOTE_71_4 END\nREST_12 NOTE_71_4 \
+NOTE_71_4 NOTE_71_4 NOTE_71_4 NOTE_74_4 NOTE_73_4 NOTE_71_4 NOTE_69_4 \
+NOTE_71_4 NOTE_68_4 NOTE_64_2 NOTE_66_2 NOTE_68_4 NOTE_70_4 NOTE_71_4" -> " "],
+       AutoDelete->True,
+       Editable->True]},
+     {
+      InterpretationBox[
+       StyleBox[
+        RowBox[{
+        "\"\<NOTE_67_4 NOTE_65_8 NOTE_64_8 END\\nNOTE_74_4 NOTE_70_4 \
+NOTE_74_4 NOTE_75_8 NOTE_74_4 NOTE_72_8 NOTE_70_4 NOTE_72_8 NOTE_72_4 \
+NOTE_74_4 NOTE_74_4 NOTE_74_4 NOTE_67_8 NOTE_69_4 NOTE_70_8 NOTE_70_4 NOTE_69\
+\>\"", " ", "->", " ", "\"\<_\>\""}],
+        ShowStringCharacters->True,
+        NumberMarks->True],
+       InputForm[
+       "NOTE_67_4 NOTE_65_8 NOTE_64_8 END\nNOTE_74_4 NOTE_70_4 NOTE_74_4 \
+NOTE_75_8 NOTE_74_4 NOTE_72_8 NOTE_70_4 NOTE_72_8 NOTE_72_4 NOTE_74_4 \
+NOTE_74_4 NOTE_74_4 NOTE_67_8 NOTE_69_4 NOTE_70_8 NOTE_70_4 NOTE_69" -> "_"],
+       AutoDelete->True,
+       Editable->True]},
+     {
+      InterpretationBox[
+       StyleBox[
+        RowBox[{
+        "\"\<8 NOTE_62_4 NOTE_65_12 NOTE_67_8 NOTE_69_4 NOTE_70_8 NOTE_74_4 \
+NOTE_72_8 NOTE_70_4 NOTE_69_12 NOTE_67_8 NOTE_72_4 NOTE_72_8 NOTE_72_4 \
+NOTE_74_8 NOTE_72_4 NOTE_70_4 NOTE_69_4 NOTE_67_4 NOTE_65_8 NOTE_65\>\"", " ",
+          "->", " ", "\"\<_\>\""}],
+        ShowStringCharacters->True,
+        NumberMarks->True],
+       InputForm[
+       "8 NOTE_62_4 NOTE_65_12 NOTE_67_8 NOTE_69_4 NOTE_70_8 NOTE_74_4 \
+NOTE_72_8 NOTE_70_4 NOTE_69_12 NOTE_67_8 NOTE_72_4 NOTE_72_8 NOTE_72_4 \
+NOTE_74_8 NOTE_72_4 NOTE_70_4 NOTE_69_4 NOTE_67_4 NOTE_65_8 NOTE_65" -> "_"],
+       AutoDelete->True,
+       Editable->True]}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.5599999999999999]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}],
+   Column],
+  Function[BoxForm`e$, 
+   TableForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{3.7140628783460083`*^9, 3.714063648107642*^9, 
+  3.7140638117295322`*^9, 3.7140646945976973`*^9, 
+  3.714118374975503*^9},ExpressionUUID->"5cdb70ac-1dab-417e-939b-\
+8554df223796"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"characters", "=", 
+  RowBox[{"Union", "[", 
+   RowBox[{"Characters", "[", "corpus", "]"}], "]"}]}]], "Input",ExpressionUUI\
+D->"280f3ba2-d7ac-4f41-ab3e-5ab7625d3337"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"\<\"_\"\>", ",", "\<\"\\n\"\>", ",", "\<\" \"\>", ",", "\<\"0\"\>",
+    ",", "\<\"1\"\>", ",", "\<\"2\"\>", ",", "\<\"3\"\>", ",", "\<\"4\"\>", 
+   ",", "\<\"5\"\>", ",", "\<\"6\"\>", ",", "\<\"7\"\>", ",", "\<\"8\"\>", 
+   ",", "\<\"9\"\>", ",", "\<\"D\"\>", ",", "\<\"E\"\>", ",", "\<\"N\"\>", 
+   ",", "\<\"O\"\>", ",", "\<\"R\"\>", ",", "\<\"S\"\>", ",", "\<\"T\"\>"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.7140628840405483`*^9, 3.714063819023758*^9, 
+  3.714064698582295*^9, 
+  3.71411837804029*^9},ExpressionUUID->"3136f56c-014c-4b81-8671-0f3ec5f39811"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"net", "=", 
+   RowBox[{"NetChain", "[", 
+    RowBox[{
+     RowBox[{"{", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"UnitVectorLayer", "[", "]"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"LongShortTermMemoryLayer", "[", "20", "]"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"LongShortTermMemoryLayer", "[", "20", "]"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{"SequenceLastLayer", "[", "]"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"LinearLayer", "[", "]"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"SoftmaxLayer", "[", "]"}]}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"\"\<Input\>\"", "\[Rule]", 
+      RowBox[{"NetEncoder", "[", 
+       RowBox[{"{", 
+        RowBox[{"\"\<Characters\>\"", ",", "characters"}], "}"}], "]"}]}], 
+     ",", "\[IndentingNewLine]", 
+     RowBox[{"\"\<Output\>\"", "\[Rule]", 
+      RowBox[{"NetDecoder", "[", 
+       RowBox[{"{", 
+        RowBox[{"\"\<Class\>\"", ",", "characters"}], "}"}], "]"}]}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{
+  3.714062563923774*^9, {3.714063325842124*^9, 3.714063335195107*^9}, {
+   3.71406398397189*^9, 3.714063997071658*^9}, {3.714064289602562*^9, 
+   3.714064291257457*^9}, {3.7140644065353928`*^9, 3.7140644072529783`*^9}, {
+   3.7141184301142597`*^9, 
+   3.714118438841495*^9}},ExpressionUUID->"ea2a294e-a11c-4822-a417-\
+a84f7e25016a"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"trainedNet", "=", "net"}], ";"}]], "Input",
+ CellChangeTimes->{{3.7140642079009113`*^9, 
+  3.714064209040667*^9}},ExpressionUUID->"e1387b27-63b3-4bfb-b712-\
+f563318bf925"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"trainedNet", "=", 
+  RowBox[{"NetTrain", "[", 
+   RowBox[{"trainedNet", ",", "trainingData", ",", 
+    RowBox[{"ValidationSet", "\[Rule]", 
+     RowBox[{"Scaled", "[", "0.1", "]"}]}], ",", 
+    RowBox[{"BatchSize", "\[Rule]", "64"}], ",", 
+    RowBox[{"TargetDevice", "\[Rule]", "\"\<CPU\>\""}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.714062574584628*^9, 3.71406257490419*^9}, 
+   3.714063943403987*^9, {3.71406400292043*^9, 3.714064003130538*^9}, 
+   3.714064204027536*^9},ExpressionUUID->"ae642bc4-fea1-4493-9282-\
+baada8931070"],
+
+Cell[BoxData[
+ StyleBox[
+  TagBox[
+   TagBox[
+    RowBox[{"NetChain", 
+     RowBox[{"[", 
+      PanelBox[
+       DynamicModuleBox[{NeuralNetworks`Private`NetChain`assoc3 = Association[
+        "Type" -> "Chain", "Nodes" -> 
+         Association[
+          "1" -> Association[
+            "Type" -> "UnitVector", "Arrays" -> Association[], "Parameters" -> 
+             Association["ClassCount" -> 20, "$Dimensions" -> {
+                 NeuralNetworks`LengthVar[1178729984]}], "Inputs" -> 
+             Association["Input" -> NeuralNetworks`TensorT[{
+                  NeuralNetworks`LengthVar[1178729984]}, 
+                 NeuralNetworks`IndexIntegerT[20]]], "Outputs" -> 
+             Association["Output" -> NeuralNetworks`TensorT[{
+                  NeuralNetworks`LengthVar[1178729984], 20}, 
+                 NeuralNetworks`RealT]]], "2" -> 
+           Association[
+            "Type" -> "LongShortTermMemory", "Arrays" -> 
+             Association[
+              "InputGateInputWeights" -> 
+               NeuralNetworks`Private`DummyRawArray[{20, 20}], 
+               "InputGateStateWeights" -> 
+               NeuralNetworks`Private`DummyRawArray[{20, 20}], 
+               "InputGateBiases" -> 
+               NeuralNetworks`Private`DummyRawArray[{20}], 
+               "OutputGateInputWeights" -> 
+               NeuralNetworks`Private`DummyRawArray[{20, 20}], 
+               "OutputGateStateWeights" -> 
+               NeuralNetworks`Private`DummyRawArray[{20, 20}], 
+               "OutputGateBiases" -> 
+               NeuralNetworks`Private`DummyRawArray[{20}], 
+               "ForgetGateInputWeights" -> 
+               NeuralNetworks`Private`DummyRawArray[{20, 20}], 
+               "ForgetGateStateWeights" -> 
+               NeuralNetworks`Private`DummyRawArray[{20, 20}], 
+               "ForgetGateBiases" -> 
+               NeuralNetworks`Private`DummyRawArray[{20}], 
+               "MemoryGateInputWeights" -> 
+               NeuralNetworks`Private`DummyRawArray[{20, 20}], 
+               "MemoryGateStateWeights" -> 
+               NeuralNetworks`Private`DummyRawArray[{20, 20}], 
+               "MemoryGateBiases" -> 
+               NeuralNetworks`Private`DummyRawArray[{20}]], "Parameters" -> 
+             Association[
+              "OutputSize" -> 20, "Dropout" -> 
+               NeuralNetworks`ValidatedParameter[None], "$InputSize" -> 20, 
+               "$SequenceLength" -> NeuralNetworks`LengthVar[1178729984]], 
+             "Inputs" -> Association["Input" -> NeuralNetworks`TensorT[{
+                  NeuralNetworks`LengthVar[1178729984], 20}, 
+                 NeuralNetworks`RealT]], "Outputs" -> 
+             Association["Output" -> NeuralNetworks`TensorT[{
+                  NeuralNetworks`LengthVar[1178729984], 20}, 
+                 NeuralNetworks`RealT]], "States" -> 
+             Association[
+              "State" -> NeuralNetworks`TensorT[{20}, NeuralNetworks`RealT], 
+               "CellState" -> 
+               NeuralNetworks`TensorT[{20}, NeuralNetworks`RealT]]], "3" -> 
+           Association[
+            "Type" -> "LongShortTermMemory", "Arrays" -> 
+             Association[
+              "InputGateInputWeights" -> 
+               NeuralNetworks`Private`DummyRawArray[{20, 20}], 
+               "InputGateStateWeights" -> 
+               NeuralNetworks`Private`DummyRawArray[{20, 20}], 
+               "InputGateBiases" -> 
+               NeuralNetworks`Private`DummyRawArray[{20}], 
+               "OutputGateInputWeights" -> 
+               NeuralNetworks`Private`DummyRawArray[{20, 20}], 
+               "OutputGateStateWeights" -> 
+               NeuralNetworks`Private`DummyRawArray[{20, 20}], 
+               "OutputGateBiases" -> 
+               NeuralNetworks`Private`DummyRawArray[{20}], 
+               "ForgetGateInputWeights" -> 
+               NeuralNetworks`Private`DummyRawArray[{20, 20}], 
+               "ForgetGateStateWeights" -> 
+               NeuralNetworks`Private`DummyRawArray[{20, 20}], 
+               "ForgetGateBiases" -> 
+               NeuralNetworks`Private`DummyRawArray[{20}], 
+               "MemoryGateInputWeights" -> 
+               NeuralNetworks`Private`DummyRawArray[{20, 20}], 
+               "MemoryGateStateWeights" -> 
+               NeuralNetworks`Private`DummyRawArray[{20, 20}], 
+               "MemoryGateBiases" -> 
+               NeuralNetworks`Private`DummyRawArray[{20}]], "Parameters" -> 
+             Association[
+              "OutputSize" -> 20, "Dropout" -> 
+               NeuralNetworks`ValidatedParameter[None], "$InputSize" -> 20, 
+               "$SequenceLength" -> NeuralNetworks`LengthVar[1178729984]], 
+             "Inputs" -> Association["Input" -> NeuralNetworks`TensorT[{
+                  NeuralNetworks`LengthVar[1178729984], 20}, 
+                 NeuralNetworks`RealT]], "Outputs" -> 
+             Association["Output" -> NeuralNetworks`TensorT[{
+                  NeuralNetworks`LengthVar[1178729984], 20}, 
+                 NeuralNetworks`RealT]], "States" -> 
+             Association[
+              "State" -> NeuralNetworks`TensorT[{20}, NeuralNetworks`RealT], 
+               "CellState" -> 
+               NeuralNetworks`TensorT[{20}, NeuralNetworks`RealT]]], "4" -> 
+           Association[
+            "Type" -> "SequenceLast", "Arrays" -> Association[], "Parameters" -> 
+             Association[], "Inputs" -> 
+             Association["Input" -> NeuralNetworks`TensorT[{
+                  NeuralNetworks`LengthVar[1178729984], 20}, 
+                 NeuralNetworks`RealT]], "Outputs" -> 
+             Association[
+              "Output" -> 
+               NeuralNetworks`TensorT[{20}, NeuralNetworks`RealT]]], "5" -> 
+           Association[
+            "Type" -> "Linear", "Arrays" -> 
+             Association[
+              "Weights" -> NeuralNetworks`Private`DummyRawArray[{20, 20}], 
+               "Biases" -> NeuralNetworks`Private`DummyRawArray[{20}]], 
+             "Parameters" -> 
+             Association[
+              "OutputDimensions" -> {20}, "$OutputSize" -> 20, "$InputSize" -> 
+               20, "$InputDimensions" -> {20}], "Inputs" -> 
+             Association[
+              "Input" -> NeuralNetworks`TensorT[{20}, NeuralNetworks`RealT]], 
+             "Outputs" -> 
+             Association[
+              "Output" -> 
+               NeuralNetworks`TensorT[{20}, NeuralNetworks`RealT]]], "6" -> 
+           Association[
+            "Type" -> "Softmax", "Arrays" -> Association[], "Parameters" -> 
+             Association[], "Inputs" -> 
+             Association[
+              "Input" -> NeuralNetworks`TensorT[{20}, NeuralNetworks`RealT]], 
+             "Outputs" -> 
+             Association[
+              "Output" -> 
+               NeuralNetworks`TensorT[{20}, NeuralNetworks`RealT]]]], 
+         "Edges" -> {
+          NeuralNetworks`NetPath["Nodes", "1", "Inputs", "Input"] -> 
+           NeuralNetworks`NetPath["Inputs", "Input"], 
+           NeuralNetworks`NetPath["Nodes", "2", "Inputs", "Input"] -> 
+           NeuralNetworks`NetPath["Nodes", "1", "Outputs", "Output"], 
+           NeuralNetworks`NetPath["Nodes", "3", "Inputs", "Input"] -> 
+           NeuralNetworks`NetPath["Nodes", "2", "Outputs", "Output"], 
+           NeuralNetworks`NetPath["Nodes", "4", "Inputs", "Input"] -> 
+           NeuralNetworks`NetPath["Nodes", "3", "Outputs", "Output"], 
+           NeuralNetworks`NetPath["Nodes", "5", "Inputs", "Input"] -> 
+           NeuralNetworks`NetPath["Nodes", "4", "Outputs", "Output"], 
+           NeuralNetworks`NetPath["Nodes", "6", "Inputs", "Input"] -> 
+           NeuralNetworks`NetPath["Nodes", "5", "Outputs", "Output"], 
+           NeuralNetworks`NetPath["Outputs", "Output"] -> 
+           NeuralNetworks`NetPath["Nodes", "6", "Outputs", "Output"]}, 
+         "Inputs" -> Association["Input" -> NetEncoder["Characters", 
+             Association["Encoding" -> NeuralNetworks`ValidatedParameter[
+                MXNetLink`CharacterEncodingData[
+                1, RawArray["UnsignedInteger8",{128, 0, 0, 128, 128, 128, 128,
+                   128, 128, 128, 128, 128, 2, 128, 128, 128, 128, 128, 128, 
+                  128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 
+                  128, 128, 128, 3, 128, 128, 128, 128, 128, 128, 128, 128, 
+                  128, 128, 128, 128, 128, 128, 128, 4, 5, 6, 7, 8, 9, 10, 11,
+                   12, 13, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 
+                  14, 15, 128, 128, 128, 128, 128, 128, 128, 128, 16, 17, 128,
+                   128, 18, 19, 20, 128, 128, 128, 128, 128, 128, 128, 128, 
+                  128, 128, 1, 128, 128, 128, 128, 128, 128, 128, 128, 128, 
+                  128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 
+                  128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128}], 
+                 RawArray["UnsignedInteger8",{95, 10, 32, 48, 49, 50, 51, 52, 
+                  53, 54, 55, 56, 57, 68, 69, 78, 79, 82, 83, 84}], 20, {
+                 "_", "\n", " ", "0", "1", "2", "3", "4", "5", "6", "7", "8", 
+                  "9", "D", "E", "N", "O", "R", "S", "T"}]], "OutputForm" -> 
+              "Index", "IgnoreCase" -> False, "Count" -> 20], 
+             NeuralNetworks`TensorT[{
+               NeuralNetworks`LengthVar[1178729984]}, 
+              NeuralNetworks`IndexIntegerT[20]]]], "Outputs" -> 
+         Association["Output" -> NetDecoder["Class", 
+             Association[
+             "Labels" -> {
+               "_", "\n", " ", "0", "1", "2", "3", "4", "5", "6", "7", "8", 
+                "9", "D", "E", "N", "O", "R", "S", "T"}, "Dimensions" -> 20], 
+             
+             NeuralNetworks`TensorT[{20}, NeuralNetworks`RealT]]], 
+         "InteriorStates" -> 
+         Association[{2, "State"} -> 
+           NeuralNetworks`NetPath["Nodes", "2", "States", "State"], {
+            2, "CellState"} -> 
+           NeuralNetworks`NetPath["Nodes", "2", "States", "CellState"], {
+            3, "State"} -> 
+           NeuralNetworks`NetPath["Nodes", "3", "States", "State"], {
+            3, "CellState"} -> 
+           NeuralNetworks`NetPath["Nodes", "3", "States", "CellState"]]], 
+        NeuralNetworks`Private`NetChain`opart, 
+        NeuralNetworks`Private`NetChain`part, 
+        NeuralNetworks`Private`NetChain`selected = Null}, 
+        DynamicBox[GridBox[{{
+            NeuralNetworks`Private`NetChain`MouseClickBoxes[
+             TagBox[
+              GridBox[{{
+                 TagBox[
+                  TagBox[
+                  "\"\"", Annotation[#, {"Inputs", "Input"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]], 
+                 TagBox[
+                  TagBox[
+                  "\"Input\"", Annotation[#, {"Inputs", "Input"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]], 
+                 TagBox[
+                  TagBox[
+                   TagBox[
+                    GridBox[{{"\"string\""}, {
+                    TemplateBox[{"\"seq. of \"", 
+                    StyleBox["\"n\"", Italic, StripOnInput -> False], "\" \"", 
+                    TemplateBox[{"\"indices\"", "\" \"", 
+                    StyleBox[
+                    
+                    TemplateBox[{
+                    "\"(\"", "\"\[VeryThinSpace]\"", "\"range\"", "\":\"", 
+                    "\" \"", 
+                    TemplateBox[{"1", "\"..\"", "20"}, "RowDefault"], 
+                    "\"\[VeryThinSpace]\"", "\")\""}, "RowDefault"], 
+                    GrayLevel[0.5], StripOnInput -> False]}, "RowDefault"]}, 
+                    "RowDefault"]}}, 
+                    GridBoxAlignment -> {"Columns" -> {{Left}}}, 
+                    BaselinePosition -> 2, DefaultBaseStyle -> "Column", 
+                    GridBoxItemSize -> {
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], 
+                    "Column"], Annotation[#, {"Inputs", "Input"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]]}, {
+                 TagBox[
+                  TagBox[
+                   StyleBox["\"1\"", 
+                    GrayLevel[0.5], StripOnInput -> False], 
+                   Annotation[#, {"Nodes", "1"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]], 
+                 TagBox[
+                  TagBox[
+                   StyleBox["UnitVectorLayer", 
+                    GrayLevel[0], StripOnInput -> False], 
+                   Annotation[#, {"Nodes", "1"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]], 
+                 TagBox[
+                  TagBox[
+                   TemplateBox[{"\"matrix\"", "\" \"", 
+                    StyleBox[
+                    
+                    TemplateBox[{
+                    "\"(\"", "\"\[VeryThinSpace]\"", "\"size\"", "\":\"", 
+                    "\" \"", 
+                    TemplateBox[{"\[Times]", "\"\[Times]\"", 
+                    StyleBox["\"n\"", Italic, StripOnInput -> False], 
+                    "\"20\""}, "RowWithSeparators"], "\"\[VeryThinSpace]\"", 
+                    "\")\""}, "RowDefault"], 
+                    GrayLevel[0.5], StripOnInput -> False]}, "RowDefault"], 
+                   Annotation[#, {"Nodes", "1"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]]}, {
+                 TagBox[
+                  TagBox[
+                   StyleBox["\"2\"", 
+                    GrayLevel[0.5], StripOnInput -> False], 
+                   Annotation[#, {"Nodes", "2"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]], 
+                 TagBox[
+                  TagBox[
+                   StyleBox["LongShortTermMemoryLayer", 
+                    GrayLevel[0], StripOnInput -> False], 
+                   Annotation[#, {"Nodes", "2"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]], 
+                 TagBox[
+                  TagBox[
+                   TemplateBox[{"\"matrix\"", "\" \"", 
+                    StyleBox[
+                    
+                    TemplateBox[{
+                    "\"(\"", "\"\[VeryThinSpace]\"", "\"size\"", "\":\"", 
+                    "\" \"", 
+                    TemplateBox[{"\[Times]", "\"\[Times]\"", 
+                    StyleBox["\"n\"", Italic, StripOnInput -> False], 
+                    "\"20\""}, "RowWithSeparators"], "\"\[VeryThinSpace]\"", 
+                    "\")\""}, "RowDefault"], 
+                    GrayLevel[0.5], StripOnInput -> False]}, "RowDefault"], 
+                   Annotation[#, {"Nodes", "2"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]]}, {
+                 TagBox[
+                  TagBox[
+                   StyleBox["\"3\"", 
+                    GrayLevel[0.5], StripOnInput -> False], 
+                   Annotation[#, {"Nodes", "3"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]], 
+                 TagBox[
+                  TagBox[
+                   StyleBox["LongShortTermMemoryLayer", 
+                    GrayLevel[0], StripOnInput -> False], 
+                   Annotation[#, {"Nodes", "3"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]], 
+                 TagBox[
+                  TagBox[
+                   TemplateBox[{"\"matrix\"", "\" \"", 
+                    StyleBox[
+                    
+                    TemplateBox[{
+                    "\"(\"", "\"\[VeryThinSpace]\"", "\"size\"", "\":\"", 
+                    "\" \"", 
+                    TemplateBox[{"\[Times]", "\"\[Times]\"", 
+                    StyleBox["\"n\"", Italic, StripOnInput -> False], 
+                    "\"20\""}, "RowWithSeparators"], "\"\[VeryThinSpace]\"", 
+                    "\")\""}, "RowDefault"], 
+                    GrayLevel[0.5], StripOnInput -> False]}, "RowDefault"], 
+                   Annotation[#, {"Nodes", "3"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]]}, {
+                 TagBox[
+                  TagBox[
+                   StyleBox["\"4\"", 
+                    GrayLevel[0.5], StripOnInput -> False], 
+                   Annotation[#, {"Nodes", "4"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]], 
+                 TagBox[
+                  TagBox[
+                   StyleBox["SequenceLastLayer", 
+                    GrayLevel[0], StripOnInput -> False], 
+                   Annotation[#, {"Nodes", "4"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]], 
+                 TagBox[
+                  TagBox[
+                   TemplateBox[{"\"vector\"", "\" \"", 
+                    StyleBox[
+                    
+                    TemplateBox[{
+                    "\"(\"", "\"\[VeryThinSpace]\"", "\"size\"", "\":\"", 
+                    "\" \"", 
+                    
+                    TemplateBox[{"\[Times]", "\"\[Times]\"", "\"20\""}, 
+                    "RowWithSeparators"], "\"\[VeryThinSpace]\"", "\")\""}, 
+                    "RowDefault"], 
+                    GrayLevel[0.5], StripOnInput -> False]}, "RowDefault"], 
+                   Annotation[#, {"Nodes", "4"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]]}, {
+                 TagBox[
+                  TagBox[
+                   StyleBox["\"5\"", 
+                    GrayLevel[0.5], StripOnInput -> False], 
+                   Annotation[#, {"Nodes", "5"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]], 
+                 TagBox[
+                  TagBox[
+                   StyleBox["LinearLayer", 
+                    GrayLevel[0], StripOnInput -> False], 
+                   Annotation[#, {"Nodes", "5"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]], 
+                 TagBox[
+                  TagBox[
+                   TemplateBox[{"\"vector\"", "\" \"", 
+                    StyleBox[
+                    
+                    TemplateBox[{
+                    "\"(\"", "\"\[VeryThinSpace]\"", "\"size\"", "\":\"", 
+                    "\" \"", 
+                    
+                    TemplateBox[{"\[Times]", "\"\[Times]\"", "\"20\""}, 
+                    "RowWithSeparators"], "\"\[VeryThinSpace]\"", "\")\""}, 
+                    "RowDefault"], 
+                    GrayLevel[0.5], StripOnInput -> False]}, "RowDefault"], 
+                   Annotation[#, {"Nodes", "5"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]]}, {
+                 TagBox[
+                  TagBox[
+                   StyleBox["\"6\"", 
+                    GrayLevel[0.5], StripOnInput -> False], 
+                   Annotation[#, {"Nodes", "6"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]], 
+                 TagBox[
+                  TagBox[
+                   StyleBox["SoftmaxLayer", 
+                    GrayLevel[0], StripOnInput -> False], 
+                   Annotation[#, {"Nodes", "6"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]], 
+                 TagBox[
+                  TagBox[
+                   TemplateBox[{"\"vector\"", "\" \"", 
+                    StyleBox[
+                    
+                    TemplateBox[{
+                    "\"(\"", "\"\[VeryThinSpace]\"", "\"size\"", "\":\"", 
+                    "\" \"", 
+                    
+                    TemplateBox[{"\[Times]", "\"\[Times]\"", "\"20\""}, 
+                    "RowWithSeparators"], "\"\[VeryThinSpace]\"", "\")\""}, 
+                    "RowDefault"], 
+                    GrayLevel[0.5], StripOnInput -> False]}, "RowDefault"], 
+                   Annotation[#, {"Nodes", "6"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]]}, {
+                 TagBox[
+                  TagBox[
+                  "\"\"", Annotation[#, {"Outputs", "Output"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]], 
+                 TagBox[
+                  TagBox[
+                  "\"Output\"", 
+                   Annotation[#, {"Outputs", "Output"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]], 
+                 TagBox[
+                  TagBox[
+                  "\"class\"", 
+                   Annotation[#, {"Outputs", "Output"}, "Mouse"]& ], 
+                  MouseAppearanceTag["LinkHand"]]}}, 
+               GridBoxAlignment -> {"Columns" -> {{Left}}}, AutoDelete -> 
+               False, GridBoxItemSize -> {
+                "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+               GridBoxSpacings -> {"Columns" -> {{1.1}}}], "Grid"], 
+             If[
+              ListQ[NeuralNetworks`Private`NetChain`part = MouseAnnotation[]],
+               If[NeuralNetworks`Private`NetChain`opart === 
+                NeuralNetworks`Private`NetChain`part, 
+                NeuralNetworks`Private`NetChain`selected = Null; 
+                NeuralNetworks`Private`NetChain`opart = Null, 
+                NeuralNetworks`Private`NetChain`selected = 
+                 Part[NeuralNetworks`Private`NetChain`assoc3, 
+                   Apply[Sequence, NeuralNetworks`Private`NetChain`part]]; 
+                NeuralNetworks`Private`NetChain`opart = 
+                 NeuralNetworks`Private`NetChain`part; Null]; Null]]}, 
+           NeuralNetworks`Private`NetChain`fmtSelected[
+           NeuralNetworks`Private`NetChain`selected, 
+            NeuralNetworks`Private`NetChain`part]}, 
+          GridBoxSpacings -> {"Columns" -> {{1}}}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}}],
+         ImageSizeCache->{309., {62.4169921875, 67.5830078125}},
+         TrackedSymbols:>{NeuralNetworks`Private`NetChain`selected}],
+        Initialization:>{NetChain}],
+       BaselinePosition->Automatic], "]"}]}],
+    False],
+   Deploy],
+  LineBreakWithin->False]], "Output",
+ CellChangeTimes->{3.7140629394528227`*^9, 3.714063428472678*^9, 
+  3.714063869861857*^9, 3.714063981316731*^9, 3.714064199158806*^9, 
+  3.714064403956661*^9, 3.714064541080638*^9, 3.714064799595889*^9, 
+  3.7140649134930153`*^9, 3.714065008765239*^9, 3.7141185271429777`*^9, 
+  3.714118749524559*^9, 
+  3.714119334564872*^9},ExpressionUUID->"74219506-27d8-437f-9a29-\
+b0a3c92bc20a"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"trainedNet", "[", "\"\<NOTE_\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.714062960637765*^9, 3.714062961792798*^9}, 
+   3.714063874867756*^9, {3.714064804620141*^9, 
+   3.714064805422207*^9}},ExpressionUUID->"a1a2ae78-f583-4413-8d6d-\
+5b574fca9435"],
+
+Cell[BoxData["\<\"_\"\>"], "Output",
+ CellChangeTimes->{{3.714062950279952*^9, 3.714062962885811*^9}, 
+   3.714063431513226*^9, 3.714063876281221*^9, 3.714064212851365*^9, 
+   3.714064547496586*^9, 3.714064805855764*^9, 3.714064916958746*^9, 
+   3.714065011828434*^9, 
+   3.714118529070653*^9},ExpressionUUID->"6d7f6910-1d09-4766-9fad-\
+0d69d7478bac"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"generate", "[", 
+   RowBox[{"net_", ",", "start_", ",", "len_"}], "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"Nest", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"StringJoin", "[", 
+      RowBox[{"#", ",", 
+       RowBox[{"net", "[", "#", "]"}]}], "]"}], "&"}], ",", "start", ",", 
+    "len"}], "]"}]}]], "Input",ExpressionUUID->"56f65159-2afb-472c-ba9f-\
+1db2009418f9"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"generate", "[", 
+  RowBox[{"trainedNet", ",", "\"\<NOTE_\>\"", ",", "100"}], "]"}]], "Input",
+ CellChangeTimes->{{3.7140629793314953`*^9, 3.7140629801864*^9}, 
+   3.714063886149125*^9, {3.714064812919868*^9, 
+   3.714064813639203*^9}},ExpressionUUID->"e1c876b6-2d80-49bd-9642-\
+036c4f81e99f"],
+
+Cell[BoxData["\<\"NOTE_7_4 NOTE_74_4 NOTE_74_4 NOTE_74_4 NOTE_74_4 NOTE_74_4 \
+NOTE_74_4 NOTE_74_4 NOTE_74_4 NOTE_74_4 NOTE_7\"\>"], "Output",
+ CellChangeTimes->{{3.714062971188016*^9, 3.7140629830126133`*^9}, 
+   3.714063439093748*^9, {3.714063880200547*^9, 3.714063889374408*^9}, 
+   3.7140642191545467`*^9, 3.714064555976644*^9, 3.7140648172741947`*^9, 
+   3.714064922368078*^9, 3.7140650165719557`*^9, 3.7141185346269827`*^9, 
+   3.714118756480154*^9, 
+   3.7141193400106163`*^9},ExpressionUUID->"c245a5c3-4823-4031-b107-\
+4a258f049683"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"generateSample", "[", 
+   RowBox[{"net_", ",", "start_", ",", "len_"}], "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"Nest", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"StringJoin", "[", 
+      RowBox[{"#", ",", 
+       RowBox[{"net", "[", 
+        RowBox[{"#", ",", "\"\<RandomSample\>\""}], "]"}]}], "]"}], "&"}], 
+    ",", "start", ",", "len"}], "]"}]}]], "Input",ExpressionUUID->"fb04d2cf-\
+c4a5-406b-bf95-83a36a906b1d"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"generateSample", "[", 
+  RowBox[{"trainedNet", ",", "\"\<NOTE_\>\"", ",", "1000"}], "]"}]], "Input",
+ CellChangeTimes->{
+  3.714062664813107*^9, {3.714063011162733*^9, 3.714063033758773*^9}, {
+   3.714063902367537*^9, 3.714063926156331*^9}, {3.714064576798294*^9, 
+   3.714064577803941*^9}, {3.7140648246684227`*^9, 3.714064825379529*^9}, 
+   3.7141193496116343`*^9},ExpressionUUID->"9c18d6bd-7962-4664-a2d8-\
+93e0c3a3cd2c"],
+
+Cell[BoxData["\<\"NOTE_7_14 NOTE_74_4 NOTE_69_4 NOTE_65_4 NOTE_62_8 NOTE_73_4 \
+NOTE_74_4 NOTE_69_4 NOTE_77_4 NOTE_60_4 NOTE_72_4 NOTE_62_1 NOTE_61_4 \
+NDTE_78_4 NOTE_69_4 NOTE_61_4 NOTE_74_4 NOTE_76_4 NOTE_72_4 NOTE_75_4 \
+NOTE_64_4 NOOE_69_4 NNTE_7__4 NOTE_79_4 OOTE_74_4 NOTE_69_4 NOTE_68_4 \
+NOTE_71_4 NOTE_70_4 NOTE_67_2 NOTE_73_2 NOTE_78_2 TNTE_7_8 NOTE_7S_4 \
+NOTE_72_4 NOTE_77_4 OTE_64_4 NOTE_74_2 NOTE_67_4 NOTE_71_4 NOTE_74_4 \
+NOTE_77_4 NOTE_75_8 NOTE_73_4 NOTE_72_2 NOTE_61_4 NNTE_66_4 NOTE_62_4 \
+NOTE_74_4 OOTE_71_4 NNTE_76_4 NOTE_61_4 NOTE_77_8 NOTE_71_4 \
+NOTE_72_8NNOT\\n_70_2 NOTE_69_4 NOTE_67_8 NOTE_74_4 NOTE_71_4 NOTE_79_4 \
+NOTE_73_2 NOTE_67_8 NOTE_67_4 OOTE__4_4 OOTE_76_4 NOTS_67_8 NOTE_62_4 \
+NOTE_63_4 NOTE_72_4 NOTE_61_4 NOTE_61_4 NOTE_71_4 NOTE_74_4 NOTE_67_4 \
+NOTE_66_2 NOTE_67_4 NOTE_69_4 NOTE_78_4 NOTE_78_4 NOTE_69_4 NOTE_69_4 \
+NOTT_71_4 NOTE_62_4 NOTE_79_4 NOTE_74_4 NOTE_69_4 NOTE_69_2 NOTE_65_2 \
+NOTE_67_4 OOTE_66_4 NOTE_73_4 NOTE_6S_4 2NOTE_69_6 NOTE_78_2 NOTE_7__4 \
+NSE_69_4 NOTE_67_2 NOTE_78_4 NOTE_74_2 NOTE_62\"\>"], "Output",
+ CellChangeTimes->{
+  3.714063015709817*^9, 3.714063111635871*^9, 3.71406353974401*^9, {
+   3.714063897258273*^9, 3.714063927831607*^9}, {3.714064564187763*^9, 
+   3.714064579554813*^9}, 3.714064826913796*^9, 3.714064926874691*^9, 
+   3.7140650182125072`*^9, 3.714118541030921*^9, 3.714118764243245*^9, 
+   3.714119345205895*^9, 
+   3.7141194617879477`*^9},ExpressionUUID->"6b0486fc-8527-4f41-82c8-\
+4832982b06af"]
+}, Open  ]]
+},
+WindowSize->{808, 871},
+WindowMargins->{{Automatic, 93}, {40, Automatic}},
+FrontEndVersion->"11.1 for Mac OS X x86 (32-bit, 64-bit Kernel) (April 27, \
+2017)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 251, 6, 30, "Text", "ExpressionUUID" -> \
+"f606ea1b-8678-4406-bc61-bb64b5cdbc20"],
+Cell[812, 28, 421, 12, 32, "Input", "ExpressionUUID" -> \
+"8210667e-7479-4de7-8151-6794db3dfc94"],
+Cell[CellGroupData[{
+Cell[1258, 44, 187, 4, 32, "Input", "ExpressionUUID" -> \
+"7ad1fc5b-5a37-4f6b-b919-91586ac01352"],
+Cell[1448, 50, 350, 8, 43, "Output", "ExpressionUUID" -> \
+"7f38c044-4db3-4754-a2b9-b64d77a8c9d3"]
+}, Open  ]],
+Cell[1813, 61, 1131, 33, 96, "Input", "ExpressionUUID" -> \
+"60176d4e-dbb0-40b6-a888-e377590268cc"],
+Cell[CellGroupData[{
+Cell[2969, 98, 196, 4, 32, "Input", "ExpressionUUID" -> \
+"63aae7d9-3c13-4192-802d-b8efb9355cc9"],
+Cell[3168, 104, 233, 4, 32, "Output", "ExpressionUUID" -> \
+"bf242b2b-d980-4496-9144-ad244ffe05f0"]
+}, Open  ]],
+Cell[3416, 111, 414, 9, 32, "Input", "ExpressionUUID" -> \
+"88b13d24-f389-4d75-84bf-e09f2bbb3c05"],
+Cell[CellGroupData[{
+Cell[3855, 124, 254, 6, 32, "Input", "ExpressionUUID" -> \
+"efdc94ea-16f2-42db-ac64-391997ec4d85"],
+Cell[4112, 132, 4174, 101, 112, "Output", "ExpressionUUID" -> \
+"5cdb70ac-1dab-417e-939b-8554df223796"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8323, 238, 190, 4, 32, "Input", "ExpressionUUID" -> \
+"280f3ba2-d7ac-4f41-ab3e-5ab7625d3337"],
+Cell[8516, 244, 604, 10, 54, "Output", "ExpressionUUID" -> \
+"3136f56c-014c-4b81-8671-0f3ec5f39811"]
+}, Open  ]],
+Cell[9135, 257, 1435, 32, 222, "Input", "ExpressionUUID" -> \
+"ea2a294e-a11c-4822-a417-a84f7e25016a"],
+Cell[10573, 291, 206, 5, 32, "Input", "ExpressionUUID" -> \
+"e1387b27-63b3-4bfb-b712-f563318bf925"],
+Cell[CellGroupData[{
+Cell[10804, 300, 559, 11, 54, "Input", "ExpressionUUID" -> \
+"ae642bc4-fea1-4493-9282-baada8931070"],
+Cell[11366, 313, 21975, 434, 166, "Output", "ExpressionUUID" -> \
+"74219506-27d8-437f-9a29-b0a3c92bc20a"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[33378, 752, 274, 5, 32, "Input", "ExpressionUUID" -> \
+"a1a2ae78-f583-4413-8d6d-5b574fca9435"],
+Cell[33655, 759, 351, 6, 32, "Output", "ExpressionUUID" -> \
+"6d7f6910-1d09-4766-9fad-0d69d7478bac"]
+}, Open  ]],
+Cell[34021, 768, 411, 12, 54, "Input", "ExpressionUUID" -> \
+"56f65159-2afb-472c-ba9f-1db2009418f9"],
+Cell[CellGroupData[{
+Cell[34457, 784, 316, 6, 32, "Input", "ExpressionUUID" -> \
+"e1c876b6-2d80-49bd-9642-036c4f81e99f"],
+Cell[34776, 792, 541, 8, 54, "Output", "ExpressionUUID" -> \
+"c245a5c3-4823-4031-b107-4a258f049683"]
+}, Open  ]],
+Cell[35332, 803, 465, 13, 54, "Input", "ExpressionUUID" -> \
+"fb04d2cf-c4a5-406b-bf95-83a36a906b1d"],
+Cell[CellGroupData[{
+Cell[35822, 820, 448, 8, 32, "Input", "ExpressionUUID" -> \
+"9c18d6bd-7962-4664-a2d8-93e0c3a3cd2c"],
+Cell[36273, 830, 1485, 22, 319, "Output", "ExpressionUUID" -> \
+"6b0486fc-8527-4f41-82c8-4832982b06af"]
+}, Open  ]]
+}
+]
+*)
+
