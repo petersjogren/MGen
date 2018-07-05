@@ -201,7 +201,7 @@ stringCodedNotes=StringJoin@Flatten[Module[{},{#[[1]],Array["+"&,#[[3]]-1],Array
 (* ::Input::Initialization:: *)
 fromCodedNoteString[noteString_,tempoBPM_]:=Module[{note32ToTime},
 note32ToTime[notes32_]:=60. notes32/8 /tempoBPM;
-Sound[SoundNote[#[[1]],#[[2]],"Flute"]&/@StringCases[noteString,{
+Sound[SoundNote[#[[1]],#[[2]],"Piano"]&/@StringCases[noteString,{
 (x:(" "..)):>{None,note32ToTime@StringLength[x]},
 (x:(Except[Characters[" +"]]~~"+"...)):>{fromNoteCharacter@StringTake[x,{1}],note32ToTime@StringLength[x]}
 }]]
@@ -295,8 +295,9 @@ generate[net_,start_,len_]:=
 
 
 (* ::Input::Initialization:: *)
-generateSample[net_,start_,len_]:=
-	Nest[StringJoin[#,net[#,"RandomSample"]]&,start,len]
+generateSample[net_,start_,len_]:=Module[{nobj=NetStateObject@net},
+StringJoin[NestList[nobj[#, "RandomSample"]&,start,len]]
+]
 generateSampleTruncated[net_,start_,len_]:=
 	Nest[StringJoin[#,net[StringTake[#,-Min[250,StringLength[#]]],"RandomSample"]]&,start,len]
 
